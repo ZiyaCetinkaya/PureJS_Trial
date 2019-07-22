@@ -1,0 +1,25 @@
+body{
+    background-color: #eee;
+}
+
+.logo{
+    max-height: 75px;
+}
+
+.card-header{
+    font-size:20px;
+}
+
+.card{
+    -webkit-box-shadow: 10px 10px 16px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 16px -6px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 16px -6px rgba(0,0,0,0.75);
+}
+
+.main-header{
+    font-size:20px;
+}
+
+.list-group-item{
+    line-height: 25px;
+}
