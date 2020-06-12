@@ -172,21 +172,56 @@ function CreateUnorederedList(className, id) {
 function CreateListItem(className) {
     const ul = document.createElement("li");
     ul.className = className;
-    ul.id = id;
     return ul;
 }
 
-
 function EventListener() {
-    form.addEventListener("submit", AddNewItem);
-    taskList.addEventListener("click", DeleteItem);
-    btnDeleteAll.addEventListener("click", DeleteAllItems);
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (txtSubject.value === "") {
+            alert("add new item");
+        }
+        else {
+            if (CheckItemIsSaved(txtSubject.value)) {
+                alert("This activity has been already saved.");
+            } else {
+                CreateItem(txtSubject.value);
+                SetItemToLS(txtSubject.value);
+                txtSubject.value = "";
+            }
+        }
+    });
+    taskList.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (e.target.className === "fas fa-times-circle fa-2x") {
+            if (confirm("Are Your Sure?")) {
+                e.target.parentElement.parentElement.remove();
+
+                // delete item from LS
+                DeleteItemFromLS(e.target.parentElement.parentElement.textContent);
+            }
+        }
+    });
+    btnDeleteAll.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (confirm("Are Your Sure?")) {
+            // taskList.childNodes.forEach(function (item) { // Yol 2
+            //     if (item.nodeType === 1) {
+            //         item.remove();
+            //     }
+            // });
+            while (taskList.firstChild) {
+                taskList.removeChild(taskList.firstChild);
+            }
+            localStorage.clear();
+        }
+    });
 }
 
 function CreateItem(text) {
     const li = CreateListItem("list-group-item list-group-item-secondary mb-2");
     li.appendChild(document.createTextNode(text));
-    const anchor = CreateAnchor("#","delete-item float-right text-danger","btnDeleteItem","<i class='fas fa-times-circle fa-2x'></i>");
+    const anchor = CreateAnchor("#", "delete-item float-right text-danger", "btnDeleteItem", "<i class='fas fa-times-circle fa-2x'></i>");
 
     li.appendChild(anchor);
     taskList.appendChild(li);
@@ -229,55 +264,10 @@ function DeleteItemFromLS(text) {
     items = GetItemsFromLS();
     items.forEach(function (item, index) {
         if (item === text) {
-            items.splice(index,1);
+            items.splice(index, 1);
         }
     });
     localStorage.setItem("items", JSON.stringify(items));
 }
 
-function AddNewItem(e) {
-    if (txtSubject.value === "") {
-        alert("add new item");
-    }
-    else {
-        if (CheckItemIsSaved(txtSubject.value)) {
-            alert("This activity has been already saved.");
-        } else {
-            CreateItem(txtSubject.value);
-            SetItemToLS(txtSubject.value);
-            txtSubject.value = "";
-        }
-    }
-    e.preventDefault();
-}
-
-
-function DeleteItem(e) {
-    if (e.target.className === "fas fa-times-circle fa-2x") {
-        if (confirm("Are Your Sure?")) {
-            e.target.parentElement.parentElement.remove();
-
-            // delete item from LS
-            DeleteItemFromLS(e.target.parentElement.parentElement.textContent);
-        }
-    }
-    e.preventDefault();
-}
-
-function DeleteAllItems(e) {
-    // taskList.innerHTML=""; // ---  Yol 1
-
-    if (confirm("Are Your Sure?")) {
-        // taskList.childNodes.forEach(function (item) { // Yol 2
-        //     if (item.nodeType === 1) {
-        //         item.remove();
-        //     }
-        // });
-        while (taskList.firstChild) {
-            taskList.removeChild(taskList.firstChild);
-        }
-        localStorage.clear();
-    }
-    e.preventDefault();
-}
 
