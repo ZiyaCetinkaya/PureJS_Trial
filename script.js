@@ -41,15 +41,15 @@ function CreateMainContent() {
 function CreateAddActivityForm() {
     const row = CreateDivWithClass("row");
     const col4 = CreateDivWithClass("col-md-4 col-sm-4 col-lg-4");
-    const card = CreateDivWithClass("card");
+    const card = CreateDivWithClass("card mb-3");
     const cardHeader = CreateDivWithClass("card-header bg-dark text-light text-center");
     cardHeader.innerText = "Adding New Activity";
     const cardBody = CreateDivWithClass("card-body");
     const form = CreateForm("addActivityForm", "off");
     const inputFormGroup = CreateDivWithClass("form-group");
     const activityNameInput = CreateInputElement("form-control", "txtActivityName", "Activity Name", "text", "txtActivityName", "btnAddNewTask");
-    const btnFormGroup = CreateDivWithClass("form-group text-right");
-    const btnSaveActivity = createButton("btn btn-danger btn-sm", "submit", "<i class='fas fa-plus-square mr-2'></i>Save");
+    const btnFormGroup = CreateDivWithClass("form-group text-center");
+    const btnSaveActivity = createButton("btn btn-danger btn-sm px-5 py-2", "submit", "<i class='fas fa-plus-square mr-2'></i>Save");
 
     btnFormGroup.appendChild(btnSaveActivity);
     inputFormGroup.appendChild(activityNameInput);
@@ -205,14 +205,10 @@ function EventListener() {
     btnDeleteAll.addEventListener("click", (e) => {
         e.preventDefault();
         if (confirm("Are Your Sure?")) {
-            // taskList.childNodes.forEach(function (item) { // Yol 2
-            //     if (item.nodeType === 1) {
-            //         item.remove();
-            //     }
-            // });
             while (taskList.firstChild) {
                 taskList.removeChild(taskList.firstChild);
             }
+            items = [];
             localStorage.clear();
         }
     });
